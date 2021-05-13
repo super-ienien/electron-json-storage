@@ -3,6 +3,7 @@
   "version": "4.5.0",
   "description": "Easily write and read user settings in Electron apps",
   "main": "lib/storage.js",
+  "types": "lib/storage.d.ts",
   "homepage": "https://github.com/electron-userland/electron-json-storage",
   "repository": {
     "type": "git",

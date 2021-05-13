@@ -40,6 +40,10 @@ which means that `electron-json-storage` will be able to calculate a data path b
 The solution is to manually call `storage.setDataPath()` before reading or
 writing any values or setting `enableRemoteModule` to `true`.
 
+Promise support
+---------------
+Every asynchronous method returns a Promise if the callback argument is not provided.
+
 Documentation
 -------------
 
@@ -113,7 +117,7 @@ console.log(dataPath);
 ```
 <a name="module_storage.get"></a>
 
-### storage.get(key, [options], callback)
+### storage.get(key, [options, callback])
 If the key doesn't exist in the user data, an empty object is returned.
 Also notice that the `.json` extension is added automatically, but it's
 ignored if you pass it yourself.
@@ -124,6 +128,7 @@ called `foo.data.json`.
 
 **Kind**: static method of [<code>storage</code>](#module_storage)  
 **Summary**: Read user data  
+**Returns**: <code>void | Promise</code> - if no callback provided, returns Promise that fulfills with user data upon success 
 **Access**: public  
 
 | Param | Type | Description |
@@ -131,7 +136,7 @@ called `foo.data.json`.
 | key | <code>String</code> | key |
 | [options] | <code>Object</code> | options |
 | [options.dataPath] | <code>String</code> | data path |
-| callback | <code>function</code> | callback (error, data) |
+| [callback] | <code>function</code> | callback (error, data) |
 
 **Example**  
 ```js
@@ -167,12 +172,13 @@ console.log(data);
 ```
 <a name="module_storage.getMany"></a>
 
-### storage.getMany(keys, [options], callback)
+### storage.getMany(keys, [options, callback])
 This function returns an object with the data of all the passed keys.
 If one of the keys doesn't exist, an empty object is returned for it.
 
 **Kind**: static method of [<code>storage</code>](#module_storage)  
 **Summary**: Read many user data keys  
+**Returns**: <code>void | Promise</code> - if no callback provided, returns Promise that fulfills with requested user data upon success 
 **Access**: public  
 
 | Param | Type | Description |
@@ -180,7 +186,7 @@ If one of the keys doesn't exist, an empty object is returned for it.
 | keys | <code>Array.&lt;String&gt;</code> | keys |
 | [options] | <code>Object</code> | options |
 | [options.dataPath] | <code>String</code> | data path |
-| callback | <code>function</code> | callback (error, data) |
+| [callback] | <code>function</code> | callback (error, data) |
 
 **Example**  
 ```js
@@ -195,18 +201,19 @@ storage.getMany([ 'foobar', 'barbaz' ], function(error, data) {
 ```
 <a name="module_storage.getAll"></a>
 
-### storage.getAll([options], callback)
+### storage.getAll([options, callback])
 This function returns an empty object if there is no data to be read.
 
 **Kind**: static method of [<code>storage</code>](#module_storage)  
 **Summary**: Read all user data  
+**Returns**: <code>void | Promise</code> - if no callback provided, returns Promise that fulfills with all user data upon success 
 **Access**: public  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | [options] | <code>Object</code> | options |
 | [options.dataPath] | <code>String</code> | data path |
-| callback | <code>function</code> | callback (error, data) |
+| [callback] | <code>function</code> | callback (error, data) |
 
 **Example**  
 ```js
@@ -220,9 +227,10 @@ storage.getAll(function(error, data) {
 ```
 <a name="module_storage.set"></a>
 
-### storage.set(key, json, [options], callback)
+### storage.set(key, json, [options, callback])
 **Kind**: static method of [<code>storage</code>](#module_storage)  
 **Summary**: Write user data  
+**Returns**: <code>void | Promise</code> - if no callback provided, returns Promise that fulfills upon success 
 **Access**: public  
 
 | Param | Type | Description |
@@ -233,7 +241,7 @@ storage.getAll(function(error, data) {
 | [options.dataPath] | <code>String</code> | data path |
 | [options.validate] | <code>String</code> | validate writes by reading the data back |
 | [options.prettyPrinting] | <code>boolean</code> | adds line breaks and spacing to the written data |
-| callback | <code>function</code> | callback (error) |
+| [callback] | <code>function</code> | callback (error) |
 
 **Example**  
 ```js
@@ -245,9 +253,10 @@ storage.set('foobar', { foo: 'bar' }, function(error) {
 ```
 <a name="module_storage.has"></a>
 
-### storage.has(key, [options], callback)
+### storage.has(key, [options, callback])
 **Kind**: static method of [<code>storage</code>](#module_storage)  
 **Summary**: Check if a key exists  
+**Returns**: <code>void | Promise</code> - if no callback provided, returns Promise that fulfills with boolean upon success 
 **Access**: public  
 
 | Param | Type | Description |
@@ -255,7 +264,7 @@ storage.set('foobar', { foo: 'bar' }, function(error) {
 | key | <code>String</code> | key |
 | [options] | <code>Object</code> | options |
 | [options.dataPath] | <code>String</code> | data path |
-| callback | <code>function</code> | callback (error, hasKey) |
+| [callback] | <code>function</code> | callback (error, hasKey) |
 
 **Example**  
 ```js
@@ -271,16 +280,17 @@ storage.has('foobar', function(error, hasKey) {
 ```
 <a name="module_storage.keys"></a>
 
-### storage.keys([options], callback)
+### storage.keys([options, callback])
 **Kind**: static method of [<code>storage</code>](#module_storage)  
 **Summary**: Get the list of saved keys  
+**Returns**: <code>void | Promise</code> - if no callback provided, returns Promise that fulfills with keys upon success 
 **Access**: public  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | [options] | <code>Object</code> | options |
 | [options.dataPath] | <code>String</code> | data path |
-| callback | <code>function</code> | callback (error, keys) |
+| [callback] | <code>function</code> | callback (error, keys) |
 
 **Example**  
 ```js
@@ -296,12 +306,13 @@ storage.keys(function(error, keys) {
 ```
 <a name="module_storage.remove"></a>
 
-### storage.remove(key, [options], callback)
+### storage.remove(key, [options, callback])
 Notice this function does nothing, nor throws any error
 if the key doesn't exist.
 
 **Kind**: static method of [<code>storage</code>](#module_storage)  
 **Summary**: Remove a key  
+**Returns**: <code>void | Promise</code> - if no callback provided, returns Promise that upon success 
 **Access**: public  
 
 | Param | Type | Description |
@@ -309,7 +320,7 @@ if the key doesn't exist.
 | key | <code>String</code> | key |
 | [options] | <code>Object</code> | options |
 | [options.dataPath] | <code>String</code> | data path |
-| callback | <code>function</code> | callback (error) |
+| [callback] | <code>function</code> | callback (error) |
 
 **Example**  
 ```js
@@ -321,16 +332,17 @@ storage.remove('foobar', function(error) {
 ```
 <a name="module_storage.clear"></a>
 
-### storage.clear([options], callback)
+### storage.clear([options, callback])
 **Kind**: static method of [<code>storage</code>](#module_storage)  
 **Summary**: Clear all stored data in the current user data path  
+**Returns**: <code>void | Promise</code> - if no callback provided, returns Promise that fulfills upon success 
 **Access**: public  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | [options] | <code>Object</code> | options |
 | [options.dataPath] | <code>String</code> | data path |
-| callback | <code>function</code> | callback (error) |
+| [callback] | <code>function</code> | callback (error) |
 
 **Example**  
 ```js
